@@ -35,9 +35,9 @@ def make_multi_folder_data(paths, caption_files=None, **kwargs):
 class FolderData(Dataset):
     def __init__(self,
         root_dir,
-        caption_file=None,
+        caption_file="metadata.jsonl",
         image_transforms=[],
-        ext="jpg",
+        ext="png",
         default_caption="",
         postprocess=None,
         return_paths=False,
@@ -131,7 +131,7 @@ def hf_dataset(
     ):
     """Make huggingface dataset with appropriate list of transforms applied
     """
-    ds = load_dataset(name, split=split)
+    ds = load_dataset("imagefolder", data_files='/content/drive/MyDrive/AIUniverse/files/**', split=split)
     image_transforms = [instantiate_from_config(tt) for tt in image_transforms]
     image_transforms.extend([transforms.ToTensor(),
                                 transforms.Lambda(lambda x: rearrange(x * 2. - 1., 'c h w -> h w c'))])
